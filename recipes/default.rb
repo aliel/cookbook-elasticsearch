@@ -87,7 +87,8 @@ ark "elasticsearch" do
 
   not_if do
     link   = "#{node.elasticsearch[:dir]}/elasticsearch"
-    target = "#{node.elasticsearch[:dir]}/elasticsearch-#{node.elasticsearch[:version]}"
+    #target = "#{node.elasticsearch[:dir]}/elasticsearch-#{node.elasticsearch[:version]}"
+    target = "#{node.elasticsearch[:dir]}/elasticsearch"
     binary = "#{target}/bin/elasticsearch"
 
     ::File.directory?(link) && ::File.symlink?(link) && ::File.readlink(link) == target && ::File.exists?(binary)

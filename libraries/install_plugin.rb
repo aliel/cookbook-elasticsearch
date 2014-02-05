@@ -38,18 +38,21 @@ module Extensions
         url     = params['url']     ? " -url #{params['url']}" : nil
 
         command = "/usr/local/bin/plugin -install #{name}#{version}#{url}"
+        command = "#{node.elasticsearch[:dir]}/elasticsearch/bin/plugin -install #{name}#{version}#{url}"
         Chef::Log.debug command
 
         raise "[!] Failed to install plugin" unless system command
 
         # Ensure proper permissions
-        raise "[!] Failed to set permission" unless system "chown -R #{node.elasticsearch[:user]}:#{node.elasticsearch[:user]} #{node.elasticsearch[:dir]}/elasticsearch-#{node.elasticsearch[:version]}/plugins/"
+        #raise "[!] Failed to set permission" unless system "chown -R #{node.elasticsearch[:user]}:#{node.elasticsearch[:user]} #{node.elasticsearch[:dir]}/elasticsearch-#{node.elasticsearch[:version]}/plugins/"
+        raise "[!] Failed to set permission" unless system "chown -R #{node.elasticsearch[:user]}:#{node.elasticsearch[:user]} #{node.elasticsearch[:dir]}/elasticsearch/plugins/"
       end
 
       notifies :restart, 'service[elasticsearch]' unless node.elasticsearch[:skip_restart]
 
       not_if do
-        Dir.entries("#{node.elasticsearch[:dir]}/elasticsearch-#{node.elasticsearch[:version]}/plugins/").any? do |plugin|
+        #Dir.entries("#{node.elasticsearch[:dir]}/elasticsearch-#{node.elasticsearch[:version]}/plugins/").any? do |plugin|
+        Dir.entries("#{node.elasticsearch[:dir]}/elasticsearch/plugins/").any? do |plugin|
           next if plugin =~ /^\./
           name.include? plugin
         end rescue false
