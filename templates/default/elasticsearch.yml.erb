@@ -87,6 +87,9 @@
 <%= print_value 'discovery.zen.ping.multicast.enabled' -%>
 <%= print_value 'discovery.zen.ping.unicast.hosts' -%>
 
+discovery.zen.ping.unicast.hosts: ["<%= @hosts.join('","') %>"]
+
+
 <%- if node.elasticsearch[:cloud] -%>
 <%= print_value 'cloud.node.auto_attributes' -%>
 <%= print_value 'cloud.aws.access_key' -%>
