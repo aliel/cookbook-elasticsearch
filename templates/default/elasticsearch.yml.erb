@@ -92,6 +92,8 @@ discovery.zen.ping.unicast.hosts: ["<%= @hosts.join('","') %>"]
 <%= print_value 'discovery.zen.ping.unicast.hosts' -%>
 <%- end -%>
 
+discovery.zen.ping.multicast.enabled: <%= node.elasticsearch[:discovery][:zen][:ping][:enabled] %>
+
 
 <%- if node.elasticsearch[:cloud] -%>
 <%= print_value 'cloud.node.auto_attributes' -%>
