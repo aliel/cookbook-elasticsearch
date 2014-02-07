@@ -126,6 +126,10 @@ template "elasticsearch-env.sh" do
   notifies :restart, 'service[elasticsearch]' unless node.elasticsearch[:skip_restart]
 end
 
+# Configration
+instances = node[:opsworks][:layers][:elasticsearch][:instances]
+hosts = instances.map{ |name, attrs| attrs['private_ip'] }
+
 # Create ES config file
 #
 template "elasticsearch.yml" do
