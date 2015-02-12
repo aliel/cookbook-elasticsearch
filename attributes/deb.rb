@@ -1,2 +1,7 @@
-default.elasticsearch[:deb_url] = "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.5.deb"
-default.elasticsearch[:deb_sha] = "d25cdc971b1ef2393a620731137bae16e0d1107d49294b11c14634da0f1bb330"
+default.elasticsearch[:version] = "1.0.1"
+default.elasticsearch[:host] = "http://download.elasticsearch.org"
+default.elasticsearch[:repository] = "elasticsearch/elasticsearch"
+default.elasticsearch[:filename] = "elasticsearch-#{node.elasticsearch[:version]}.deb"
+
+default.elasticsearch[:deb_url] = [node.elasticsearch[:host], node.elasticsearch[:repository], node.elasticsearch[:filename]].join('/')
+default.elasticsearch[:deb_sha] = false
