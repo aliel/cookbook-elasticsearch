@@ -57,10 +57,10 @@ end
 
 # Create service
 #
-template "/etc/init.d/elasticsearch" do
-  source "elasticsearch.init.erb"
-  owner 'root' and mode 0755
-end
+#template "/etc/init.d/elasticsearch" do
+#  source "elasticsearch.init.erb"
+#  owner 'root' and mode 0755
+#end
 
 service "elasticsearch" do
   supports :status => true, :restart => true
@@ -69,31 +69,31 @@ end
 
 # Download, extract, symlink the elasticsearch libraries and binaries
 #
-ark_prefix_root = node.elasticsearch[:dir] || node.ark[:prefix_root]
-ark_prefix_home = node.elasticsearch[:dir] || node.ark[:prefix_home]
+#ark_prefix_root = node.elasticsearch[:dir] || node.ark[:prefix_root]
+#ark_prefix_home = node.elasticsearch[:dir] || node.ark[:prefix_home]
 
-ark "elasticsearch" do
-  url   node.elasticsearch[:download_url]
-  owner node.elasticsearch[:user]
-  group node.elasticsearch[:user]
-  version node.elasticsearch[:version]
-  has_binaries ['bin/elasticsearch', 'bin/plugin']
-  checksum node.elasticsearch[:checksum]
-  prefix_root   ark_prefix_root
-  prefix_home   ark_prefix_home
+#ark "elasticsearch" do
+#  url   node.elasticsearch[:download_url]
+#  owner node.elasticsearch[:user]
+#  group node.elasticsearch[:user]
+#  version node.elasticsearch[:version]
+#  has_binaries ['bin/elasticsearch', 'bin/plugin']
+#  checksum node.elasticsearch[:checksum]
+#  prefix_root   ark_prefix_root
+#  prefix_home   ark_prefix_home
 
-  notifies :start,   'service[elasticsearch]'
-  notifies :restart, 'service[elasticsearch]' unless node.elasticsearch[:skip_restart]
+#  notifies :start,   'service[elasticsearch]'
+#  notifies :restart, 'service[elasticsearch]' unless node.elasticsearch[:skip_restart]
 
-  not_if do
-    link   = "#{node.elasticsearch[:dir]}/elasticsearch"
-    #target = "#{node.elasticsearch[:dir]}/elasticsearch-#{node.elasticsearch[:version]}"
-    target = "#{node.elasticsearch[:dir]}/elasticsearch"
-    binary = "#{target}/bin/elasticsearch"
+#  not_if do
+#    link   = "#{node.elasticsearch[:dir]}/elasticsearch"
+#    #target = "#{node.elasticsearch[:dir]}/elasticsearch-#{node.elasticsearch[:version]}"
+#    target = "#{node.elasticsearch[:dir]}/elasticsearch"
+#    binary = "#{target}/bin/elasticsearch"
 
-    ::File.directory?(link) && ::File.symlink?(link) && ::File.readlink(link) == target && ::File.exists?(binary)
-  end
-end
+#    ::File.directory?(link) && ::File.symlink?(link) && ::File.readlink(link) == target && ::File.exists?(binary)
+#  end
+#end
 
 # Increase open file and memory limits
 #
