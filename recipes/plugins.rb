@@ -5,6 +5,11 @@ directory "#{node.elasticsearch[:dir]}/elasticsearch-#{node.elasticsearch[:versi
   recursive true
 end
 
+service "elasticsearch" do
+  supports :status => true, :restart => true
+  action [ :enable ]
+end
+
 node[:elasticsearch][:plugins].each do | name, config |
   next if name == 'elasticsearch/elasticsearch-cloud-aws' && !node.recipe?('aws')
   install_plugin name, config
