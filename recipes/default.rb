@@ -25,13 +25,13 @@ user node.elasticsearch[:user] do
 end
 
 # FIX: Work around the fact that Chef creates the directory even for `manage_home: false`
-bash "remove the elasticsearch user home" do
-  user    'root'
-  code    "rm -rf  #{node.elasticsearch[:dir]}/elasticsearch"
+#bash "remove the elasticsearch user home" do
+#  user    'root'
+#  code    "rm -rf  #{node.elasticsearch[:dir]}/elasticsearch"
 
-  not_if  "test -L #{node.elasticsearch[:dir]}/elasticsearch"
-  only_if "test -d #{node.elasticsearch[:dir]}/elasticsearch"
-end
+#  not_if  "test -L #{node.elasticsearch[:dir]}/elasticsearch"
+#  only_if "test -d #{node.elasticsearch[:dir]}/elasticsearch"
+#end
 
 # Create ES directories
 #
