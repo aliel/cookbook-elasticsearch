@@ -127,8 +127,10 @@ template "elasticsearch-env.sh" do
 end
 
 # Configration
-instances = node[:opsworks][:layers][:elasticsearch][:instances]
-hosts = instances.map{ |name, attrs| attrs['private_ip'] }
+aws_instance = search(:aws_opsworks_instance, "self:true").first
+layer_id = aws_instance['layer_ids'][0]
+layer = search(:aws_opsworks_layer, "layer_id:#{layer_id}").first
+hosts = search(:aws_opsworks_instance, "layer_ids:#{layer_id}").map { |name, attrs| name['private_ip'] }
 
 # Create ES config file
 #
